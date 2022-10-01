@@ -85,7 +85,7 @@
 			<div class="inner-content">
 				<div class="grid">
 					<div class="main-logo">
-						<a href="index.html"><h2>LUDU</h2></a>
+						<a href="#"><b><h2 id="text-logo">LUDU</h2></b></a>
 					</div>
 
 					<nav id="navbar">
@@ -123,24 +123,24 @@
 	<div class="main-slider">
 		<div class="slider-item">
 			<div class="banner-content" data-aos="fade-up">
-				<h2 class="banner-title">Welcome to Ludu Books Store</h2>
-				<p>We are dddddddddddddđ</p>
+				<h2 class="banner-title">LUDU 🗒 STORE</h2>
+				<p id="bt-readmore">• Online bookstore brings interesting shopping experience to customers.</p>
 				<div class="btn-wrap">
-					<a href="#" class="btn-outline-accent btn-accent-arrow">Read More<i class="icon icon-ns-arrow-right"></i></a>
+					<a href="#bt-readmore" class="btn-outline-accent btn-accent-arrow">Read More<i class="icon icon-ns-arrow-right"></i></a>
 				</div>
 			</div><!--banner-content--> 
-			<img src="1.png" alt="banner" class="banner-image">
+			<img src="./images/slider/1.png" alt="banner" class="banner-image">
 		</div><!--slider-item-->
 
 		<div class="slider-item">
 			<div class="banner-content">
-				<h2 class="banner-title">dddddddddddddddd</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu feugiat amet, libero ipsum enim pharetra hac. Urna commodo, lacus ut magna velit eleifend. Amet, quis urna, a eu.</p>
+				<h2 class="banner-title">LUDU 🗒 STORE</h2>
+				<p>• Innovate and create, build content to serve well and bring a "peace of mind when buying books online" experience.</p>
 				<div class="btn-wrap">
-					<a href="#" class="btn-outline-accent btn-accent-arrow">Read More<i class="icon icon-ns-arrow-right"></i></a>
+					<a href="#bt-readmore" class="btn-outline-accent btn-accent-arrow">Read More<i class="icon icon-ns-arrow-right"></i></a>
 				</div>
 			</div><!--banner-content-->
-			<img src="2.png" alt="banner" class="banner-image"> 
+			<img src="./images/slider/2.png" alt="banner" class="banner-image"> 
 		</div><!--slider-item-->
 	</div><!--slider-->
 		
@@ -924,6 +924,7 @@
     
     function scrollFunction() {
       if (document.body.scrollTop > 1 || document.documentElement.scrollTop > 700) {
+		document.getElementById("text-logo").style.color = "white";
         document.getElementById("header-wrap").style.background = "#74642F";
 		const allTag = document.getElementById("header-wrap").getElementsByTagName("a");
 		for (let i = 0; i < allTag.length; i++) {
@@ -934,6 +935,7 @@
 		navbarFixed.classList.add("fixed-top");
 
       } else {
+		document.getElementById("text-logo").style.color = "black";
         document.getElementById("header-wrap").style.background = "none";
 		const allTag = document.getElementById("header-wrap").getElementsByTagName("a");
 		for (let i = 0; i < allTag.length; i++) {

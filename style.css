@@ -86,13 +86,14 @@ button, input, select, textarea {
 figure {
   margin: 0;
 }
-img {
+/*img {
   display: inline-block;
   border: 0;
   max-width: 100%;
-  height: auto;
+  height: 20px;
   vertical-align: middle;
 }
+*/
 ::selection {
   background: rgba(0,0,0,0.8);
   color: #EDEBE4;
@@ -471,7 +472,7 @@ img.banner-image {
     object-fit: cover;
     border: 10px solid transparent;
     padding: 3px;
-    border-image: url(3.png) 10 round;
+    border-image: url(./images/slider/3.png) 10 round;
 }
 img.post-image {
     width: 100%;
@@ -586,6 +587,7 @@ img.post-image {
 }
 header#header {
     padding-top: 15px;
+    margin-bottom: -10px;
 } 
 nav#navbar {
     display: flex;

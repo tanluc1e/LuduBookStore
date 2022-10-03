@@ -165,3 +165,34 @@ function btSignUp(){
 	}
 }
 	
+
+function btLogin(){
+	var userEmail = document.getElementById('log_user_email').value;
+	var userPassword = document.getElementById('log_user_pass').value;
+
+	var errEmail = document.getElementById('log_err_email');
+	var errPassword = document.getElementById('log_err_pass');
+
+	errEmail.innerText = "";
+	errPassword.innerText = "";
+
+
+	//Validation user email
+	const validateEmail = (userEmail) => {
+		return userEmail.match(
+		  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		);
+	};	
+
+
+
+	//Check validation email
+	if (validateEmail(userEmail) != null){
+		errEmail.innerText = "";
+	} else {errEmail.innerText = "Email is not valid"};
+
+	if (userPassword == null || userPassword == ""){
+		errPassword.innerText = "Enter your password";
+	}
+
+}

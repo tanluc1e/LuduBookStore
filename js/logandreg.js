@@ -107,10 +107,12 @@ $(function() {
 
 /* FORM CHECK */
 function btSignUp(){
-	var userEmail = document.getElementById('reg_user_email').value;
-	var userName = document.getElementById('reg_user_name').value;
-	var userPassword = document.getElementById('reg_user_pass').value;
-	var userConfirmPassword = document.getElementById('reg_user_cpass').value;
+	checkErr = true;
+
+	var userEmail = document.getElementById('user_email').value;
+	var userName = document.getElementById('user_name').value;
+	var userPassword = document.getElementById('password').value;
+	var userConfirmPassword = document.getElementById('confirmpassword').value;
 
 	var errEmail = document.getElementById('reg_err_email');
 	var errName = document.getElementById('reg_err_name');
@@ -142,31 +144,43 @@ function btSignUp(){
 	//Check validation email
 	if (validateEmail(userEmail) != null){
 		errEmail.innerText = "";
-	} else {errEmail.innerText = "Email is not valid"};
+	} else {errEmail.innerText = "Email is not valid"; checkErr = false};
 
 	//Check validation user name
 	if (validateName(userName) == null){
 		errName.innerText = "User name is not valid";
-	} else if (userName.length < 6){errName.innerText = "User name must have 6 characters"};
+		checkErr = false
+	} else if (userName.length < 6){errName.innerText = "User name must have 6 characters"; checkErr = false};
 	
 	if (userPassword == null){
 		errPassword.innerText = "Enter your password";
+		checkErr = false
 	} else if (userPassword.length < 10){
 		errPassword.innerText = "Password must have 10 characters";
+		checkErr = false
 	}
 
 	//Check validation password and re-password
 	if (userConfirmPassword == null){
 		errConfirmPassword.innerText = "Enter your re-password";
+		checkErr = false
 	} else if (userConfirmPassword.length < 10){
 		errConfirmPassword.innerText = "Password must have 10 characters";
+		checkErr = false
 	} else if (userConfirmPassword != userPassword){
 		errConfirmPassword.innerText = "Password does not match";
+		checkErr = false
+	}
+
+	if (checkErr == true){
+		document.getElementById("regSubmit").setAttribute("type", "submit");
 	}
 }
 	
 
 function btLogin(){
+	checkErr = true;
+
 	var userEmail = document.getElementById('log_user_email').value;
 	var userPassword = document.getElementById('log_user_pass').value;
 
@@ -187,12 +201,18 @@ function btLogin(){
 
 
 	//Check validation email
-	if (validateEmail(userEmail) != null){
-		errEmail.innerText = "";
-	} else {errEmail.innerText = "Email is not valid"};
+	if (validateEmail(userEmail) == null){
+		errEmail.innerText = "Email is not valid";
+		checkErr = false;
+	}
 
 	if (userPassword == null || userPassword == ""){
 		errPassword.innerText = "Enter your password";
-	}
+		checkErr = false;
+	};
+
+	if(checkErr == true){
+		document.getElementById("logSubmit").setAttribute("type", "submit");
+	};
 
 }

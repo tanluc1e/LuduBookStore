@@ -613,7 +613,25 @@ input {
     font-family: inherit;
     color: #ccc;
 }
+/*
 .form-wrap form .button {
+    margin: 1em 0;
+    padding: .2em 3em;
+    width: auto;
+    display: block;
+    background-color: #28A55F;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: .8em;
+    border-radius: 30px;
+    background: linear-gradient(90deg, rgba(187,104,20,1) 0%, rgba(205,124,45,1) 49%, rgba(195,112,28,1) 100%);
+    -webkit-box-shadow: 0px 0px 37px -9px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 37px -9px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 37px -9px rgba(0,0,0,0.75);
+}
+*/
+.button2 {
     margin: 1em 0;
     padding: .2em 3em;
     width: auto;

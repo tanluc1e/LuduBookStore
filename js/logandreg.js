@@ -181,8 +181,9 @@ function btSignUp(){
 function btLogin(){
 	checkErr = true;
 
-	var userEmail = document.getElementById('log_user_email').value;
-	var userPassword = document.getElementById('log_user_pass').value;
+	var userEmail = document.getElementById('user_email').value;
+	var userPassword = document.getElementById('password').value;
+	var rememberMe = document.getElementById('remember_me');
 
 	var errEmail = document.getElementById('log_err_email');
 	var errPassword = document.getElementById('log_err_pass');
@@ -215,4 +216,54 @@ function btLogin(){
 		document.getElementById("logSubmit").setAttribute("type", "submit");
 	};
 
+
+	/*
+	//Remember me with JQuery
+	$('.login-form').on('submit', function() {
+		if ($('#remember_me').is(':checked')) {
+            // save username and password
+            localStorage.userEmail = $('#user_email').val();
+            localStorage.password = $('#password').val();
+            localStorage.checkBoxValidation = $('#remember_me').val();
+        } else {
+            localStorage.userEmail = '';
+            localStorage.password = '';
+            localStorage.checkBoxValidation = '';
+        }
+	});
+	*/
+
+	//Remember me with Javascript
+	var formSubmitted = document.getElementById("login-form").addEventListener("submit", setLocalstorage());
+	function setLocalstorage(){
+		var userEmail = document.getElementById('user_email').value;
+		var userPassword = document.getElementById('password').value;
+		var rememberMe = document.getElementById('remember_me');
+	
+			if (localStorage.checkBoxValidation != null && localStorage.userEmail != null && rememberMe.checked == true){
+				localStorage.userEmail = userEmail;
+				localStorage.password = userPassword;
+				localStorage.checkBoxValidation = 'on';
+			} else {
+				localStorage.userEmail = '';
+				localStorage.password = '';
+				localStorage.checkBoxValidation = '';
+			}
+	}
 }
+
+function getLocalstorage(){
+	//remember me
+	if(localStorage.userEmail != null && localStorage.checkBoxValidation == "on"){
+		document.getElementById('user_email').value = localStorage.userEmail;
+		document.getElementById('password').value = localStorage.password;
+		document.getElementById('remember_me').checked = true;
+	} else {
+		document.getElementById('user_email').value = '';
+		document.getElementById('password').value = '';
+		document.getElementById('remember_me').checked = false;
+	}
+}
+
+
+

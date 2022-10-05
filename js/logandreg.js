@@ -109,10 +109,10 @@ $(function() {
 function btSignUp(){
 	checkErr = true;
 
-	var userEmail = document.getElementById('user_email').value;
-	var userName = document.getElementById('user_name').value;
-	var userPassword = document.getElementById('password').value;
-	var userConfirmPassword = document.getElementById('confirmpassword').value;
+	var userEmail = document.getElementById('signup-form')['user_email'].value;
+	var userName = document.getElementById('signup-form')['user_name'].value;
+	var userPassword = document.getElementById('signup-form')['password'].value;
+	var userConfirmPassword = document.getElementById('signup-form')['confirmpassword'].value;
 
 	var errEmail = document.getElementById('reg_err_email');
 	var errName = document.getElementById('reg_err_name');
@@ -181,8 +181,8 @@ function btSignUp(){
 function btLogin(){
 	checkErr = true;
 
-	var userEmail = document.getElementById('user_email').value;
-	var userPassword = document.getElementById('password').value;
+	var userEmail = document.getElementById('login-form')['user_email'].value;
+	var userPassword = document.getElementById('login-form')['password'].value;
 	var rememberMe = document.getElementById('remember_me');
 
 	var errEmail = document.getElementById('log_err_email');

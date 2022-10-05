@@ -3,31 +3,65 @@ session_start();
 include("connect.php");
 error_reporting(0);
 
-//Kiểm tra nếu đã đăng nhập (get user_mail == true) sẽ không cho truy cập trang login.php nữa, trả về index.php
+//Kiểm tra nếu đã đăng nhập (get user_email == true) sẽ không cho truy cập trang login.php nữa, trả về index.php
 if(session_id() == '') session_start();
-if (isset($_SESSION['user_mail']) == true) {
+if (isset($_SESSION['user_email']) == true) {
     header("location: index.php");
     exit();
 } 
 
+
+        /* SIGN IN */
+if (isset($_POST["logButton"])) {
+    $user_email = $_POST["user_email"];
+    $password = md5($_POST['password']);
+    $sql = "SELECT * FROM users WHERE user_email='$user_email'AND password= '$password'";
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+
+    /* FOR ADMIN 
+    $sql1 = "SELECT * FROM adminn WHERE user_email='$user_email'AND password='$password'";
+    $result1 = $conn->query($sql1);
+    $row1 = $result1->fetch_assoc();
+    */
+
+    // Lấy từng giá trị từ database
+    $_SESSION['user_email'] = $row['user_email'];
+    $_SESSION['user_name'] = $row['user_name'];
+    $_SESSION['password'] = $row['password'];
+    $_SESSION['id'] = $row['id'];
+    $_SESSION['phonenum'] = $row['phonenum'];
+    $_SESSION['created_at'] = $row['created_at'];
+
+    if ($user_email = $row["user_email"] and $password = $row["password"]){
+        echo "<script>
+        alert('Ok')
+    </script>";
+        header('location: index.php');
+    }
+        else{
+            echo "<script>
+            alert('Lỗi! Vui lòng kiểm tra lại email và mật khẩu!')
+        </script>";
+        }
+}
         /* SIGN UP */
 if (isset($_POST['regButton'])) {
     $user_name = $_POST['user_name'];
-    $user_mail = $_POST['user_email'];
+    $user_email = $_POST['user_email'];
     $password = md5($_POST['password']);
-    $sql = "SELECT * FROM users WHERE (user_email='$user_mail')";
-    $query = "insert into users (user_email,user_name,password) values('$user_mail','$user_name','$password')";
+    $sql = "SELECT * FROM users WHERE (user_email='$user_email')";
+    $query = "insert into users (user_email,user_name,password) values('$user_email','$user_name','$password')";
     $res = mysqli_query($db, $sql);
     if (mysqli_num_rows($res) > 0) {
         $row = mysqli_fetch_assoc($res);
-        if ($user_mail == $row['user_email']) {  
+        if ($user_email == $row['user_email']) {  
             $_SESSION['message'] = "Email have already";
             echo "<script>
             alert('Email đã được sử dụng')
-            window.location.href='login.php'
         </script>";
         }
-    } elseif (!empty($user_name) && !empty($password) && !empty($user_mail)) {
+    } elseif (!empty($user_name) && !empty($password) && !empty($user_email)) {
         
 
         mysqli_query($db, $query);
@@ -45,7 +79,7 @@ if (isset($_POST['regButton'])) {
   <meta charset="UTF-8">
   <title>Login and Register</title>
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-  <link rel="stylesheet" href="css/logandreg.css">
+  <link rel="stylesheet" href="css/logandreg2.css">
   <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
 </head>
@@ -116,7 +150,7 @@ if (isset($_POST['regButton'])) {
                 <div class="content">
                     <!-- LOGO -->
                     <div class="logo">
-                        <a href="#"><img src="http://res.cloudinary.com/dpcloudinary/image/upload/v1506186248/logo.png" alt=""></a>
+                        <a href="#"><h2 class="text-logo2">LUDU</h2></a>
                     </div>
                     <!-- SLIDESHOW -->
                     <div id="slideshow">
@@ -157,9 +191,9 @@ if (isset($_POST['regButton'])) {
                     		<div id="login-tab-content" class="active">
                     			<form class="login-form" id="login-form" action="logandreg.php" method="post">
                                     <span for="log_user_email" id="log_err_email" class="error"></span>
-                    				<input type="email" class="input" id="user_email" autocomplete="off" placeholder="Email">
+                    				<input type="email" class="input" id="user_email" name="user_email" autocomplete="off" placeholder="Email">
                                     <span for="log_user_pass" id="log_err_pass" class="error"></span>
-                    				<input type="password" class="input" id="password" autocomplete="off" placeholder="Password">
+                    				<input type="password" class="input" id="password" name="password" autocomplete="off" placeholder="Password">
                     				<input type="checkbox" class="checkbox" id="remember_me">
                     				<label for="remember_me">Remember me</label>
                     				<input type="button" class="button2" value="Login" id="logSubmit" name="logButton" onclick="btLogin()">

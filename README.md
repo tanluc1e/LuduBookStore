@@ -11,11 +11,14 @@
 <span style="color:#74642F">**Users Have Following Access for this online store site:-**</span>
 -  <span style="color:#e79546">(5/5) ◙◙◙◙◙</span> » Sign in and Sign up.
 -  <span style="color:#e79546">(5/5) ◙◙◙◙◙</span> » Change user information and password.
+-  <span style="color:#e79546">(5/5) ◙◙◙◙◙</span> » Book category.
+-  <span style="color:#e79546">(2/5) ◙◙<span style="color:#ccc">●●●</span></span> » Related books.
 -  <span style="color:#e79546">(4/5) ◙◙◙◙<span style="color:#ccc">●</span></span> » View available and new books.
 -  <span style="color:#e79546">(5/5) ◙◙◙◙◙</span> » View books information.
 -  <span style="color:#e79546">(5/5) ◙◙◙◙◙</span> » Add to cart.
 -  <span style="color:#e79546">(5/5) ◙◙◙◙◙</span> » Buy books.
 -  <span style="color:#e79546">(3/5) ◙◙◙<span style="color:#ccc">●●</span></span> » Get Payment Receipt.
+- ....
 
 
 <span style="color:#74642F">**Admin Have Following Access for this online store site:-**</span>

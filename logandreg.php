@@ -79,7 +79,7 @@ if (isset($_POST['regButton'])) {
   <meta charset="UTF-8">
   <title>Login and Register</title>
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-  <link rel="stylesheet" href="css/logandreg2.css">
+  <link rel="stylesheet" href="css/logandreg.css">
   <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
 </head>
@@ -150,7 +150,7 @@ if (isset($_POST['regButton'])) {
                 <div class="content">
                     <!-- LOGO -->
                     <div class="logo">
-                        <a href="#"><h2 class="text-logo2">LUDU</h2></a>
+                        <a href="#"><h2 class="text-logo">LUDU</h2></a>
                     </div>
                     <!-- SLIDESHOW -->
                     <div id="slideshow">

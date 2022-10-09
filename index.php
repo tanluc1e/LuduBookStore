@@ -13,7 +13,11 @@ if (isset($_SESSION['user_email']) == true) {
 	$current_username = $row['user_name'];
     }
 } 
-
+// Get random 10 book
+$stmt = $db->prepare('SELECT * FROM books ORDER BY RAND() LIMIT 10');
+$stmt->execute();
+$resultSet = $stmt->get_result();
+$data = $resultSet->fetch_all(MYSQLI_ASSOC);
 ?>
 
 
@@ -34,7 +38,7 @@ if (isset($_SESSION['user_email']) == true) {
 	    <link rel="stylesheet" type="text/css" href="css/normalize.css">
 	    <link rel="stylesheet" type="text/css" href="icomoon/icomoon.css">
 	    <link rel="stylesheet" type="text/css" href="css/vendor.css">
-	    <link rel="stylesheet" type="text/css" href="style.css">
+	    <link rel="stylesheet" type="text/css" href="style2.css">
 
 		<!-- script
 		================================================== -->
@@ -70,7 +74,7 @@ if (isset($_SESSION['user_email']) == true) {
 
 					<div class="right-element">
 						<div class="grid">
-							<div class="user-account for-buy">
+                        <div class="user-account for-buy">
 								<?php 
 									if (!empty($_SESSION['user_email'])){
 										echo
@@ -116,7 +120,7 @@ if (isset($_SESSION['user_email']) == true) {
 			<div class="inner-content">
 				<div class="grid">
 					<div class="main-logo">
-						<a href="#"><b><h2 id="text-logo">LUDU</h2></b></a>
+						<a href="index.html"><img src="images/logo.png" alt="logo"></a>
 					</div>
 
 					<nav id="navbar">
@@ -180,7 +184,6 @@ if (isset($_SESSION['user_email']) == true) {
 	</button>
 </section>
 
-
 <section id="featured-books" class="bookshelf">
 	<div class="container">
 		<div class="row">
@@ -195,56 +198,17 @@ if (isset($_SESSION['user_email']) == true) {
 
 			<div class="product-list" data-aos="fade-up">
 				<div class="product-grid">					
-					<figure class="product-style">
-						<img src="images/product-item1.jpg" alt="Books" class="product-item">
-							<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Simple way of piece life</h3>
-							<p>Armor Ramsey</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-				
-					<figure class="product-style">
-						<img src="images/product-item2.jpg" alt="Books" class="product-item">
-							<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Great travel at desert</h3>
-							<p>Sanchit Howdy</p>
-							<div class="item-price">$ 38.00</div>
-						</figcaption>
-					</figure>
-
-					<figure class="product-style">
-						<img src="images/product-item3.jpg" alt="Books" class="product-item">
-							<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>The lady beauty Scarlett</h3>
-							<p>Arthur Doyle</p>
-							<div class="item-price">$ 45.00</div>
-						</figcaption>
-					</figure>
-									
-					<figure class="product-style">
-						<img src="images/product-item4.jpg" alt="Books" class="product-item">
-							<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Once upon a time</h3>
-							<p>Klien Marry</p>
-							<div class="item-price">$ 35.00</div>
-						</figcaption>
-					</figure>
-									
-					<figure class="product-style">
-						<img src="images/product-item6.jpg" alt="Books" class="product-item">
-							<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Once upon a time</h3>
-							<p>Klien Marry</p>
-							<div class="item-price">$ 35.00</div>
-						</figcaption>
-					</figure>
-
+                    <?php foreach ($data as $book): ?>
+                        <figure class="product-style">
+                            <img src="<?=$book['image']?>" alt="<?=$book['name']?>" class="product-item">
+                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
+                            <figcaption>
+                                <h3><?=$book['name']?></h3>
+                                <p><?=$book['author']?></p>
+                                <div class="item-price"><?=$book['price']?>.000vnđ</div>
+                            </figcaption>
+					    </figure>
+                    <?php endforeach; ?>
 			    </div><!--ft-books-slider-->				
 			</div><!--grid-->
 
@@ -265,16 +229,16 @@ if (isset($_SESSION['user_email']) == true) {
 			<div class="product-element">
 				<div class="grid">
 					<figure class="products-thumb">
-						<img src="images/single-image.jpg" alt="book" class="single-image">
+						<img src="<?=$book['image']?>" alt="<?=$book['name']?>" class="single-image">
 					</figure>
 					<div class="product-entry">
-						<h2 class="section-title divider">Best Selling Book</h2>
+						<h2 class="section-title divider">Recommend Books</h2> <!-- BEST SELLING BOOK -->
 
 						<div class="products-content">
-							<div class="author-name">By Timbur Hood</div>
-							<h3 class="item-title">Birds gonna be happy</h3>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu feugiat amet, libero ipsum enim pharetra hac.</p>
-							<div class="item-price">$ 45.00</div>
+							<div class="author-name">by <?=$book['author']?></div>
+							<h3 class="item-title"><?=$book['name']?></h3>
+							<p><?=$book['description']?></p>
+							<div class="item-price"><?=$book['price']?>.000vnđ</div>
 							<div class="btn-wrap">
 								<a href="#" class="btn-accent-arrow">shop it now <i class="icon icon-ns-arrow-right"></i></a>
 							</div>
@@ -817,7 +781,7 @@ if (isset($_SESSION['user_email']) == true) {
 
 						<div class="footer-item">
 						<div class="company-brand">
-							<img src="images/main-logo.png" alt="logo" class="footer-logo">
+							<img src="images/logo.png" alt="logo" class="footer-logo">
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis sed ptibus liberolectus nonet psryroin. Amet sed lorem posuere sit iaculis amet, ac urna. Adipiscing fames semper erat ac in suspendisse iaculis.</p>
 						</div>
 						</div>
@@ -947,35 +911,3 @@ if (isset($_SESSION['user_email']) == true) {
 
 </body>
 </html>	
-
-<script>
-
-	//Scroll Function
-	window.onscroll = function() {scrollFunction()};
-    
-    function scrollFunction() {
-      if (document.body.scrollTop > 1 || document.documentElement.scrollTop > 700) {
-		document.getElementById("text-logo").style.color = "white";
-        document.getElementById("header-wrap").style.background = "#964B00";
-		const allTag = document.getElementById("header-wrap").getElementsByTagName("a");
-		for (let i = 0; i < allTag.length; i++) {
-		if (allTag.length > 0) {
-			document.getElementById("header-wrap").getElementsByTagName("a")[i].style.color = "white";
-			document.getElementById("header-wrap").getElementsByTagName("a")[i].classList.add("scrollHover");
-		}}
-		var navbarFixed = document.getElementById("header-wrap");
-		navbarFixed.classList.add("fixed-top");
-
-      } else {
-		document.getElementById("text-logo").style.color = "black";
-        document.getElementById("header-wrap").style.background = "none";
-		const allTag = document.getElementById("header-wrap").getElementsByTagName("a");
-		for (let i = 0; i < allTag.length; i++) {
-		if (allTag.length > 0) {
-			document.getElementById("header-wrap").getElementsByTagName("a")[i].style.color = "black";
-		}}
-		var navbarFixed = document.getElementById("header-wrap");
-		navbarFixed.classList.remove("fixed-top");
-      }
-    }
-</script>

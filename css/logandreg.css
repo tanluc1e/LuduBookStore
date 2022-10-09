@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Quantico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+.text-logo{
+    font-family: 'Bungee', cursive;
+    color: white;
+}
 /* GENERAL RESETS */
 * {
     margin: 0;
@@ -687,7 +692,7 @@ input {
     opacity: 0;
     content: '';
     background-color: transparent;
-    border: solid #67DAC6;
+    border: solid rgba(205,124,45,1);
     border-width: 0 0 3px 3px;
     -webkit-transform: rotate(-45deg);
     -moz-transform: rotate(-45deg);
@@ -782,7 +787,7 @@ input {
     }
     #slideshow h2 span {
         padding: 5px 0;
-        border: solid #B6EDE3;
+        border: solid white;
         border-width: 1px 0;
     }
     #slideshow p {

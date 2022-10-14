@@ -28,14 +28,12 @@ a:hover {
 /* BODY */
 body {
     position: relative;
-    color: #666;
+    color: #fff;
     font-family: 'Quantico', sans-serif;
     text-align: center;
     height: 100vh;
     width: 100%;
-    background-image: url(../images/logandreg/background.png);
-    background-repeat: no-repeat;
-    background-size: cover;
+	background-color: #1f2029;
     overflow:hidden;
 }
 
@@ -232,6 +230,7 @@ a.button:hover {
     -o-transform: translateY(0);
     transform: translateY(0);
     animation: show_terms .5s .2s 1 ease normal forwards;
+    color: black;
 }
 .terms.closed, .recovery.closed {
     -webkit-transform: translateY(0);
@@ -274,7 +273,7 @@ a.button:hover {
     padding: .2em 3em;
     width: auto;
     display: block;
-    background: linear-gradient(90deg, rgba(187,104,20,1) 0%, rgba(205,124,45,1) 49%, rgba(195,112,28,1) 100%);
+    background: #C576F6;
     border: none;
     color: #fff;
     cursor: pointer;
@@ -282,7 +281,7 @@ a.button:hover {
     border-radius: 5px;
 }
 .recovery form .button:hover {
-    background: #964B00;
+    background: #B24BF3;
 }
 .recovery p.mssg {
     opacity: 0;
@@ -303,7 +302,7 @@ a.button:hover {
     margin: 0 auto;
     width: 100%;
     height: 40px;
-    background: rgba(150, 75, 0, 0.8);
+    background: #A020F0;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
@@ -552,10 +551,10 @@ input {
 .form-wrap a {
     color: #fff;
     padding-bottom: 4px;
-    border-bottom: 2px solid #74642F;
+    border-bottom: 2px solid #B24BF3;
 }
 .form-wrap a:hover {
-    color: #e79546;
+    color: #D7A1F9;
 }
 .form-wrap .tabs {
     overflow: hidden;
@@ -585,7 +584,7 @@ input {
 }
 .form-wrap .tabs h3 a.active span {
     padding-bottom: 4px;
-    border-bottom: 2px solid #74642F;
+    border-bottom: 2px solid #B24BF3;
 }
 .form-wrap .tabs-content {
     color: #ccc;
@@ -647,13 +646,13 @@ input {
     cursor: pointer;
     font-size: .8em;
     border-radius: 30px;
-    background: linear-gradient(90deg, rgba(187,104,20,1) 0%, rgba(205,124,45,1) 49%, rgba(195,112,28,1) 100%);
+    background: #B24BF3;
     -webkit-box-shadow: 0px 0px 37px -9px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 37px -9px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 37px -9px rgba(0,0,0,0.75);
 }
 .form-wrap form .button:hover {
-    background: #964B00;
+    background: #D7A1F9;
 }
 .form-wrap form .checkbox {
     margin: 1em 0;
@@ -692,7 +691,7 @@ input {
     opacity: 0;
     content: '';
     background-color: transparent;
-    border: solid rgba(205,124,45,1);
+    border: solid #C576F6;
     border-width: 0 0 3px 3px;
     -webkit-transform: rotate(-45deg);
     -moz-transform: rotate(-45deg);

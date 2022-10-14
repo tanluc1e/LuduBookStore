@@ -1,7 +1,7 @@
 <?php
 session_start();
 include("connect.php");
-
+error_reporting(0);
 //Kiểm tra nếu đã đăng nhập (get user_email == true) sẽ lấy giá trị từ database
 if(session_id() == '') session_start();
 if (isset($_SESSION['user_email']) == true) {
@@ -18,6 +18,40 @@ $stmt = $db->prepare('SELECT * FROM books ORDER BY RAND() LIMIT 10');
 $stmt->execute();
 $resultSet = $stmt->get_result();
 $data = $resultSet->fetch_all(MYSQLI_ASSOC);
+
+// Get random 100 book
+$stmt2 = $db->prepare('SELECT * FROM books ORDER BY RAND() LIMIT 100');
+$stmt2->execute();
+$resultSet2 = $stmt2->get_result();
+$data2 = $resultSet2->fetch_all(MYSQLI_ASSOC);
+
+// Internet
+$internet = $db->prepare('SELECT * FROM books WHERE category="Internet" ORDER BY RAND() LIMIT 10');
+$internet->execute();
+$internetResult = $internet->get_result();
+$dataInternet = $internetResult->fetch_all(MYSQLI_ASSOC);
+
+// Education
+$education = $db->prepare('SELECT * FROM books WHERE category="Education" ORDER BY RAND() LIMIT 10');
+$education->execute();
+$educationResult = $education->get_result();
+$dataEducation = $educationResult->fetch_all(MYSQLI_ASSOC);
+
+// Romance
+$romance = $db->prepare('SELECT * FROM books WHERE category="Romance" ORDER BY RAND() LIMIT 10');
+$romance->execute();
+$romanceResult = $romance->get_result();
+$dataRomance = $romanceResult->fetch_all(MYSQLI_ASSOC);
+
+// Travel
+$travel = $db->prepare('SELECT * FROM books WHERE category="Travel" ORDER BY RAND() LIMIT 10');
+$travel->execute();
+$travelResult = $travel->get_result();
+$dataTravel = $travelResult->fetch_all(MYSQLI_ASSOC);
+
+require_once "./functions/database_functions.php";
+require_once "./functions/cart_functions.php";
+$getTotalPrice = total_price($_SESSION['cart']);
 ?>
 
 
@@ -38,7 +72,7 @@ $data = $resultSet->fetch_all(MYSQLI_ASSOC);
 	    <link rel="stylesheet" type="text/css" href="css/normalize.css">
 	    <link rel="stylesheet" type="text/css" href="icomoon/icomoon.css">
 	    <link rel="stylesheet" type="text/css" href="css/vendor.css">
-	    <link rel="stylesheet" type="text/css" href="style2.css">
+	    <link rel="stylesheet" type="text/css" href="style.css">
 
 		<!-- script
 		================================================== -->
@@ -93,9 +127,9 @@ $data = $resultSet->fetch_all(MYSQLI_ASSOC);
 							</div>
 
 							<div class="cart for-buy">
-								<a href="#">
+								<a href="cart.php">
 								<i class="icon icon-clipboard"></i>
-								<span>Cart:(0 $)</span>
+								<span>Cart:(<?php echo $getTotalPrice; ?>.000vnđ)</span>
 								</a>
 							</div>
 
@@ -126,12 +160,11 @@ $data = $resultSet->fetch_all(MYSQLI_ASSOC);
 					<nav id="navbar">
 						<div class="main-menu">
 							<ul class="menu-list">
-								<li class="menu-item active"><a href="#home" data-effect="Home">Home</a></li>
-								<li class="menu-item"><a href="#about" class="nav-link" data-effect="About">About</a></li>
-								<li class="menu-item"><a href="#pages" class="nav-link" data-effect="Pages">Pages</a></li>
-								<li class="menu-item"><a href="#shop" class="nav-link" data-effect="Shop">Shop</a></li>
-								<li class="menu-item"><a href="#articles" class="nav-link" data-effect="Articles">Articles</a></li>
-								<li class="menu-item"><a href="#contact" class="nav-link" data-effect="Contact">Contact</a></li>
+								<li class="menu-item active"><a href="index.php" data-effect="Home">Home</a></li>
+								<li class="menu-item"><a href="about.php" class="nav-link" data-effect="About">About</a></li>
+								<li class="menu-item"><a href="index.php#popular-books" class="nav-link" data-effect="Shop">Shop</a></li>
+								<li class="menu-item"><a href="index.php#latest-blog" class="nav-link" data-effect="Articles">Articles</a></li>
+								<li class="menu-item"><a href="contact.php" class="nav-link" data-effect="Contact">Contact</a></li>
 							</ul>
 
 							<div class="hamburger">
@@ -213,7 +246,7 @@ $data = $resultSet->fetch_all(MYSQLI_ASSOC);
 			</div><!--grid-->
 
 			<div class="btn-wrap align-right">
-				<a href="#" class="btn-accent-arrow">View all products <i class="icon icon-ns-arrow-right"></i></a>
+				<a href="product.php" class="btn-accent-arrow">View all products <i class="icon icon-ns-arrow-right"></i></a>
 			</div>
 
 			</div><!--inner-content-->
@@ -240,7 +273,7 @@ $data = $resultSet->fetch_all(MYSQLI_ASSOC);
 							<p><?=$book['description']?></p>
 							<div class="item-price"><?=$book['price']?>.000vnđ</div>
 							<div class="btn-wrap">
-								<a href="#" class="btn-accent-arrow">shop it now <i class="icon icon-ns-arrow-right"></i></a>
+								<a href="product.php" class="btn-accent-arrow">Shop it now <i class="icon icon-ns-arrow-right"></i></a>
 							</div>
 						</div><!--description-->
 
@@ -266,277 +299,106 @@ $data = $resultSet->fetch_all(MYSQLI_ASSOC);
    
 			<ul class="tabs">
 			  <li data-tab-target="#all-genre" class="active tab">All Genre</li>
-			  <li data-tab-target="#business" class="tab">Business</li>
-			  <li data-tab-target="#technology" class="tab">Technology</li>
-			  <li data-tab-target="#romantic" class="tab">Romantic</li>
-			  <li data-tab-target="#adventure" class="tab">Adventure</li>
-			  <li data-tab-target="#fictional" class="tab">Fictional</li>
+			  <li data-tab-target="#internet" class="tab">Internet</li>
+			  <li data-tab-target="#education" class="tab">Technology</li>
+			  <li data-tab-target="#romance" class="tab">Romantic</li>
+			  <li data-tab-target="#travel" class="tab">Adventure</li>
 			</ul>
 
 			<div class="tab-content">
 			  <div id="all-genre" data-tab-content class="active" data-aos="fade-up">
 			  	<div class="grid">
 
-				  	<figure class="product-style">
-						<img src="images/tab-item1.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Portrait photography</h3>
-							<p>Adam Silber</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item2.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Once upon a time</h3>
-							<p>Klien Marry</p>
-							<div class="item-price">$ 35.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item3.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Tips of simple lifestyle</h3>
-							<p>Bratt Smith</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item4.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Just felt from outside</h3>
-							<p>Nicole Wilson</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item5.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Peaceful Enlightment</h3>
-							<p>Marmik Lama</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item6.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Great travel at desert</h3>
-							<p>Sanchit Howdy</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Life among the pirates</h3>
-							<p>Armor Ramsey</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item8.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Simple way of piece life</h3>
-							<p>Armor Ramsey</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
+                    <?php foreach ($data2 as $book): ?>
+						<figure class="product-style">
+							<img src="<?=$book['image']?>" alt="<?=$book['name']?>" class="product-item">
+							<form method="post" action="cart.php">
+								<input type="hidden" name="bookisbn" value="<?=$book['bookid']?>">
+								<button type="submit" name="cart" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
+							</form>
+							<figcaption>
+								<h3><?=$book['name']?></h3>
+								<p><?=$book['author']?></p>
+								<div class="item-price"><?=$book['price']?>.000vnđ</div>
+							</figcaption>
+						</figure>
+                    <?php endforeach; ?>
 		    	 </div>
 
 			  </div>
-			  <div id="business" data-tab-content>
+			  <div id="internet" data-tab-content>
 			  	<div class="grid">
-				  	<figure class="product-style">
-						<img src="images/tab-item2.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Peaceful Enlightment</h3>
-							<p>Marmik Lama</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item4.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Great travel at desert</h3>
-							<p>Sanchit Howdy</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item6.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Life among the pirates</h3>
-							<p>Armor Ramsey</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item8.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Simple way of piece life</h3>
-							<p>Armor Ramsey</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
+				  <?php foreach ($dataInternet as $book): ?>
+						<figure class="product-style">
+							<img src="<?=$book['image']?>" alt="<?=$book['name']?>" class="product-item">
+							<form method="post" action="cart.php">
+								<input type="hidden" name="bookisbn" value="<?=$book['bookid']?>">
+								<button type="submit" name="cart" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
+							</form>
+							<figcaption>
+								<h3><?=$book['name']?></h3>
+								<p><?=$book['author']?></p>
+								<div class="item-price"><?=$book['price']?>.000vnđ</div>
+							</figcaption>
+						</figure>
+                    <?php endforeach; ?>
 		    	 </div>
 			  </div>
 
-			  <div id="technology" data-tab-content>
+			  <div id="education" data-tab-content>
 			  	<div class="grid">
-				  	<figure class="product-style">
-						<img src="images/tab-item1.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Peaceful Enlightment</h3>
-							<p>Marmik Lama</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item3.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Great travel at desert</h3>
-							<p>Sanchit Howdy</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item5.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Life among the pirates</h3>
-							<p>Armor Ramsey</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Simple way of piece life</h3>
-							<p>Armor Ramsey</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
+				  <?php foreach ($dataEducation as $book): ?>
+						<figure class="product-style">
+							<img src="<?=$book['image']?>" alt="<?=$book['name']?>" class="product-item">
+							<form method="post" action="cart.php">
+								<input type="hidden" name="bookisbn" value="<?=$book['bookid']?>">
+								<button type="submit" name="cart" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
+							</form>
+							<figcaption>
+								<h3><?=$book['name']?></h3>
+								<p><?=$book['author']?></p>
+								<div class="item-price"><?=$book['price']?>.000vnđ</div>
+							</figcaption>
+						</figure>
+                    <?php endforeach; ?>
 		    	 </div>
 			  </div>
 
-			  <div id="romantic" data-tab-content>
+			  <div id="romance" data-tab-content>
 			  	<div class="grid">
-		    	  <figure class="product-style">
-						<img src="images/tab-item1.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Peaceful Enlightment</h3>
-							<p>Marmik Lama</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item3.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Great travel at desert</h3>
-							<p>Sanchit Howdy</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item5.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Life among the pirates</h3>
-							<p>Armor Ramsey</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Simple way of piece life</h3>
-							<p>Armor Ramsey</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
+				  <?php foreach ($dataRomance as $book): ?>
+						<figure class="product-style">
+							<img src="<?=$book['image']?>" alt="<?=$book['name']?>" class="product-item">
+							<form method="post" action="cart.php">
+								<input type="hidden" name="bookisbn" value="<?=$book['bookid']?>">
+								<button type="submit" name="cart" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
+							</form>
+							<figcaption>
+								<h3><?=$book['name']?></h3>
+								<p><?=$book['author']?></p>
+								<div class="item-price"><?=$book['price']?>.000vnđ</div>
+							</figcaption>
+						</figure>
+                    <?php endforeach; ?>
 		    	 </div>
 			  </div>
 
-			  <div id="adventure" data-tab-content>
+			  <div id="travel" data-tab-content>
 			  	<div class="grid">
-				  	<figure class="product-style">
-						<img src="images/tab-item5.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Life among the pirates</h3>
-							<p>Armor Ramsey</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Simple way of piece life</h3>
-							<p>Armor Ramsey</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-		    	 </div>
-			  </div>
-
-			  <div id="fictional" data-tab-content>
-			  	<div class="grid">
-				  	<figure class="product-style">
-						<img src="images/tab-item5.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Life among the pirates</h3>
-							<p>Armor Ramsey</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
-
-				  	<figure class="product-style">
-						<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-						<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-						<figcaption>
-							<h3>Simple way of piece life</h3>
-							<p>Armor Ramsey</p>
-							<div class="item-price">$ 40.00</div>
-						</figcaption>
-					</figure>
+				  <?php foreach ($dataTravel as $book): ?>
+						<figure class="product-style">
+							<img src="<?=$book['image']?>" alt="<?=$book['name']?>" class="product-item">
+							<form method="post" action="cart.php">
+								<input type="hidden" name="bookisbn" value="<?=$book['bookid']?>">
+								<button type="submit" name="cart" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
+							</form>
+							<figcaption>
+								<h3><?=$book['name']?></h3>
+								<p><?=$book['author']?></p>
+								<div class="item-price"><?=$book['price']?>.000vnđ</div>
+							</figcaption>
+						</figure>
+                    <?php endforeach; ?>
 		    	 </div>
 			  </div>
 
@@ -556,80 +418,6 @@ $data = $resultSet->fetch_all(MYSQLI_ASSOC);
 			<div class="author-name">Dr. Seuss</div>			
 		</blockquote>
 	</div>		
-</section>
-
-<section id="special-offer" class="bookshelf">
-
-	<div class="section-header align-center">
-		<div class="title">
-			<span>Grab your opportunity</span>
-		</div>
-		<h2 class="section-title">Books with offer</h2>
-	</div>
-
-	<div class="container">
-		<div class="row">
-			<div class="inner-content">	
-				<div class="product-list" data-aos="fade-up">
-					<div class="grid product-grid">				
-						<figure class="product-style">
-							<img src="images/product-item5.jpg" alt="Books" class="product-item">
-							<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-							<figcaption>
-								<h3>Simple way of piece life</h3>
-								<p>Armor Ramsey</p>
-								<div class="item-price">
-								<span class="prev-price">$ 50.00</span>$ 40.00</div>
-							</figcaption>
-						</figure>
-					
-						<figure class="product-style">
-							<img src="images/product-item6.jpg" alt="Books" class="product-item">
-							<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-							<figcaption>
-								<h3>Great travel at desert</h3>
-								<p>Sanchit Howdy</p>
-								<div class="item-price">
-								<span class="prev-price">$ 30.00</span>$ 38.00</div>
-							</figcaption>
-						</figure>
-					
-						<figure class="product-style">
-							<img src="images/product-item7.jpg" alt="Books" class="product-item">
-							<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-							<figcaption>
-								<h3>The lady beauty Scarlett</h3>
-								<p>Arthur Doyle</p>
-								<div class="item-price">
-								<span class="prev-price">$ 35.00</span>$ 45.00</div>
-							</figcaption>
-						</figure>
-					
-						<figure class="product-style">
-							<img src="images/product-item8.jpg" alt="Books" class="product-item">
-							<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-							<figcaption>
-								<h3>Once upon a time</h3>
-								<p>Klien Marry</p>
-								<div class="item-price">
-								<span class="prev-price">$ 25.00</span>$ 35.00</div>
-							</figcaption>
-						</figure>
-
-						<figure class="product-style">
-							<img src="images/product-item2.jpg" alt="Books" class="product-item">
-							<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-							<figcaption>
-								<h3>Simple way of piece life</h3>
-								<p>Armor Ramsey</p>
-								<div class="item-price">$ 40.00</div>
-							</figcaption>
-						</figure>					
-					</div><!--grid-->
-				</div>
-			</div><!--inner-content-->
-		</div>
-	</div>
 </section>
 
 <section id="subscribe">
@@ -679,7 +467,7 @@ $data = $resultSet->fetch_all(MYSQLI_ASSOC);
 						</figure>
 
 						<div class="post-item">	
-							<div class="meta-date">Mar 30, 2021</div>			
+							<div class="meta-date">Oct 14, 2022</div>			
 						    <h3><a href="#">Reading books always makes the moments happy</a></h3>
 
 						    <div class="links-element">
@@ -709,7 +497,7 @@ $data = $resultSet->fetch_all(MYSQLI_ASSOC);
 							</a>
 						</figure>
 						<div class="post-item">	
-							<div class="meta-date">Mar 29, 2021</div>			
+							<div class="meta-date">Sep 29, 2022</div>			
 						    <h3><a href="#">Reading books always makes the moments happy</a></h3>
 
 						    <div class="links-element">
@@ -739,7 +527,7 @@ $data = $resultSet->fetch_all(MYSQLI_ASSOC);
 							</a>
 						</figure>
 						<div class="post-item">		
-							<div class="meta-date">Feb 27, 2021</div>			
+							<div class="meta-date">Sep 27, 2022</div>			
 						    <h3><a href="#">Reading books always makes the moments happy</a></h3>
 
 						    <div class="links-element">
@@ -782,7 +570,7 @@ $data = $resultSet->fetch_all(MYSQLI_ASSOC);
 						<div class="footer-item">
 						<div class="company-brand">
 							<img src="images/logo.png" alt="logo" class="footer-logo">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis sed ptibus liberolectus nonet psryroin. Amet sed lorem posuere sit iaculis amet, ac urna. Adipiscing fames semper erat ac in suspendisse iaculis.</p>
+							<p>• Online bookstore brings interesting shopping experience to customers.</p>
 						</div>
 						</div>
 

@@ -173,7 +173,7 @@ if (isset($_POST['regButton'])) {
                     </div>
                 </div>
                 <!-- LOGIN FORM -->
-                <div class="user">
+                <div class="user" style="border: 1px solid white">
                     <!-- ACTIONS
                     <div class="actions">
                         <a class="help" href="#signup-tab-content">Sign Up</a><a class="faq" href="#login-tab-content">Login</a>

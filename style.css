@@ -1177,6 +1177,7 @@ Tags: one-column, two-columns, right-sidebar, flexible-header, accessibility-rea
   }
   #footer .footer-item p {
       width: 80%;
+      color: black;
   }
   #footer .footer-menu {
       width: 15%;
